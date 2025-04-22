@@ -23,6 +23,10 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // middleware to parse URL-encoded bodies
 
+const {MongoClient} = require('mongodb');
+const uri = "mongodb://localhost:27017/"; // MongoDB connection string
+const client = new MongoClient(uri);
+
 app.use((req, res, next) => {
     console.log(`[${req.method}] ${req.url}`);
     next();
@@ -38,11 +42,46 @@ app.get('/', (req, res) => {
 
 //serve shopping page
 app.get('/products', (req, res) => {
-    //get search term from query string
-    const searchTerm = req.query.search;
-
     res.sendFile(path.join(root, 'products.html'));
 });
+
+//retrieve products from database
+app.post('/products/get-items', (req, res) => {
+    let search = req.body.search;
+
+    console.log(`Search term: ${search}`);
+    getProducts(search).then(products => {
+        res.json(products);
+    }).catch(err => {
+        console.error(err);
+        res.status(500).send('Error retrieving products');
+    });
+});
+
+async function getProducts(searchTerm) {
+    try {
+        await client.connect();
+        const database = client.db('mickeyShop');
+        const collection = database.collection('products');
+        let query = {};
+        //search for tags first, then name, then description
+        if (searchTerm) {
+            query = {
+                $or: [
+                    { tags: { $regex: searchTerm, $options: 'i' } },
+                    { name: { $regex: searchTerm, $options: 'i' } },
+                    { description: { $regex: searchTerm, $options: 'i' } }
+                ]
+            };
+        }
+        const products = await collection.find(query).toArray();
+        return products;
+    } catch (err) {
+        console.error(err);
+    } finally {
+        await client.close();
+    }
+}
 
 //serve cart page
 app.get('/cart', (req, res) => {

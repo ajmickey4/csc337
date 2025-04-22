@@ -16,6 +16,8 @@ body {
     display: flex;
     justify-content: center;
     padding: 5px 10px;
+    position: fixed;
+    width: 100%;
 }
 
 .header-body {
@@ -56,6 +58,7 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
+    margin-top: 50px;
 }
 
 .search-bar {
@@ -109,7 +112,7 @@ body {
 }
 
 .content {
-    padding: 20px;
+    padding: 90px 20px;
     margin: 0 auto;
     max-width: 80em;
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
@@ -176,6 +179,23 @@ button {
     cursor: pointer;
     background-color: transparent;
 }
+
+button:hover {
+    background-color: var(--dark-color);
+    color: #eee;
+}
+
+button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    border: 1px solid #999;
+}
+button:disabled:hover {
+    background-color: #ccc;
+    color: #666;
+}
+
 #login_form label {
     margin-left:20px;
 }
@@ -197,4 +217,36 @@ a {
     /* margin-top: 5px; */
     /* margin-bottom: -5px; */
     align-items: flex-end;
+}
+
+.product-item {
+    display: grid;
+    grid-template-columns: 50% 1fr 1fr 1fr;
+    margin-bottom: 20px;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 30px;
+    border-bottom: 1px solid #555;
+}
+
+.product-item button {
+    height: fit-content;
+}
+
+input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 12pt;
+}
+input[type="number"]:focus-visible {
+    outline: 0;
+    border: 2px solid var(--dark-color);
+}
+
+.price {
+    font-size: 14pt;
+    color: var(--dark-color);
+    font-weight: 600;
 }

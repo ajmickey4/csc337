@@ -1,0 +1,186 @@
+[
+  {
+    "name": "Rustic Ceramic Coffee Mug",
+    "description": "Hand-thrown ceramic mug with a speckled glaze. Holds 12oz.",
+    "category": "Pottery",
+    "price": 24.99,
+    "quantity": 50,
+    "tags": [
+      "ceramic",
+      "mug",
+      "rustic",
+      "handmade",
+      "pottery"
+    ],
+    "images": [
+      "https://example.com/images/mug1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472409",
+    "updatedAt": "2025-04-22T18:11:25.472420"
+  },
+  {
+    "name": "Chunky Knit Blanket",
+    "description": "Soft, oversized throw blanket made from vegan yarn. 50x60 inches.",
+    "category": "Knitting",
+    "price": 89.99,
+    "quantity": 20,
+    "tags": [
+      "knit",
+      "blanket",
+      "cozy",
+      "handmade",
+      "vegan yarn"
+    ],
+    "images": [
+      "https://example.com/images/blanket1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472422",
+    "updatedAt": "2025-04-22T18:11:25.472423"
+  },
+  {
+    "name": "Hand-Carved Wooden Spoon",
+    "description": "Made from sustainably harvested walnut wood. 12 inches long.",
+    "category": "Woodworking",
+    "price": 18.5,
+    "quantity": 75,
+    "tags": [
+      "wood",
+      "spoon",
+      "hand-carved",
+      "sustainable"
+    ],
+    "images": [
+      "https://example.com/images/spoon1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472424",
+    "updatedAt": "2025-04-22T18:11:25.472426"
+  },
+  {
+    "name": "Lavender Soy Candle",
+    "description": "Aromatic candle with dried lavender and essential oils. 8oz tin.",
+    "category": "Candles",
+    "price": 14.99,
+    "quantity": 100,
+    "tags": [
+      "candle",
+      "lavender",
+      "soy wax",
+      "aromatherapy",
+      "hand-poured"
+    ],
+    "images": [
+      "https://example.com/images/candle1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472427",
+    "updatedAt": "2025-04-22T18:11:25.472429"
+  },
+  {
+    "name": "Minimalist Beaded Bracelet",
+    "description": "Adjustable bracelet with natural gemstone beads and waxed cord.",
+    "category": "Jewelry",
+    "price": 22.0,
+    "quantity": 40,
+    "tags": [
+      "bracelet",
+      "jewelry",
+      "beads",
+      "gemstone",
+      "minimalist"
+    ],
+    "images": [
+      "https://example.com/images/bracelet1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472430",
+    "updatedAt": "2025-04-22T18:11:25.472432"
+  },
+  {
+    "name": "Handwoven Cotton Coasters (Set of 4)",
+    "description": "Colorful coasters made from 100% recycled cotton.",
+    "category": "Textiles",
+    "price": 15.0,
+    "quantity": 60,
+    "tags": [
+      "cotton",
+      "coasters",
+      "handwoven",
+      "textiles"
+    ],
+    "images": [
+      "https://example.com/images/coasters1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472434",
+    "updatedAt": "2025-04-22T18:11:25.472435"
+  },
+  {
+    "name": "Macrame Plant Hanger",
+    "description": "Stylish handmade macrame hanger for small to medium pots.",
+    "category": "Home Decor",
+    "price": 28.0,
+    "quantity": 30,
+    "tags": [
+      "macrame",
+      "plant hanger",
+      "boho",
+      "handmade"
+    ],
+    "images": [
+      "https://example.com/images/plant_hanger1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472437",
+    "updatedAt": "2025-04-22T18:11:25.472438"
+  },
+  {
+    "name": "Hand-Painted Greeting Cards (Set of 5)",
+    "description": "Unique watercolor cards with envelopes.",
+    "category": "Paper Goods",
+    "price": 19.99,
+    "quantity": 35,
+    "tags": [
+      "cards",
+      "hand-painted",
+      "stationery",
+      "watercolor"
+    ],
+    "images": [
+      "https://example.com/images/cards1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472440",
+    "updatedAt": "2025-04-22T18:11:25.472442"
+  },
+  {
+    "name": "Leather Keychain with Initial",
+    "description": "Custom leather keychain with hand-stamped initial.",
+    "category": "Accessories",
+    "price": 12.0,
+    "quantity": 80,
+    "tags": [
+      "leather",
+      "keychain",
+      "custom",
+      "initial"
+    ],
+    "images": [
+      "https://example.com/images/keychain1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472444",
+    "updatedAt": "2025-04-22T18:11:25.472446"
+  },
+  {
+    "name": "Handblown Glass Vase",
+    "description": "Colorful glass vase made with traditional techniques.",
+    "category": "Glasswork",
+    "price": 45.0,
+    "quantity": 25,
+    "tags": [
+      "glass",
+      "vase",
+      "handblown",
+      "decor"
+    ],
+    "images": [
+      "https://example.com/images/vase1.jpg"
+    ],
+    "createdAt": "2025-04-22T18:11:25.472447",
+    "updatedAt": "2025-04-22T18:11:25.472449"
+  }
+]
