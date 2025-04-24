@@ -12,6 +12,7 @@ window.initUserPage = function() {
         logOutButton.innerText = 'Logout';
         logOutButton.onclick = function() {
             localStorage.removeItem('mickey_shop_username');
+            localStorage.removeItem('mickey_shop_user_id');
             window.location.href = '/user';
         }
         content.appendChild(logOutButton);
@@ -57,13 +58,20 @@ function login(event) {
     })
     .then(response => {
         if (response.ok) {
-            // Handle successful login (e.g., redirect to user page)
-            localStorage.setItem('mickey_shop_username', username);
-            window.location.href = '/user';
+            return response.text(); // Get the user ID from the response
         } else {
             // Handle login error (e.g., show error message)
             let errorMessage = document.getElementById('user_error');
             errorMessage.innerText = `Invalid username or password`;
+        }
+    })
+    .then(userId => {
+        if (userId) {
+            // Store user ID in local storage
+            localStorage.setItem('mickey_shop_username', username);
+            localStorage.setItem('mickey_shop_user_id', userId);
+            console.log('Login successful');
+            window.location.href = '/user'; // Redirect to user page
         }
     })
 }
@@ -84,9 +92,7 @@ function register(event) {
     })
     .then(response => {
         if (response.ok) {
-            // handle successful registration 
-            localStorage.setItem('mickey_shop_username', username);
-            window.location.href = '/user';
+            return response.text(); // Get the user ID from the response
         } else if (response.status === 400) { 
             //handle username already exists error
             document.getElementById('user_error').innerText = `Username already exists`;
@@ -94,6 +100,15 @@ function register(event) {
             // handle registration error 
             let errorMessage = document.getElementById('user_error');
             errorMessage.innerText = `Registration failed`;
+        }
+    })
+    .then(userId => {
+        if (userId) {
+            // Store user ID in local storage
+            localStorage.setItem('mickey_shop_username', username);
+            localStorage.setItem('mickey_shop_user_id', userId);
+            console.log('Registration successful');
+            window.location.href = '/user'; // Redirect to user page
         }
     })
     .catch(error => {

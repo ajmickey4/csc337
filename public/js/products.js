@@ -83,7 +83,20 @@ window.addToCart = function(productId) {
     }   
 
     console.log('Product added to cart:', productId);
-    // You can implement the actual add to cart functionality here
+    //get user id from local storage
+    const userId = localStorage.getItem('mickey_shop_user_id');
+    if (!userId) {
+        alert('You must be logged in to add items to your cart.');
+        return;
+    }
+    //send request to server to add item to cart
+    fetch(`/cart/add/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId, productId, quantity  })
+    })
 }
 
 window.onload = function() {
