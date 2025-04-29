@@ -189,7 +189,7 @@ button:hover {
 button:disabled {
     background-color: #ccc;
     color: #666;
-    cursor: not-allowed;
+    cursor: default;
     border: 1px solid #999;
 }
 button:disabled:hover {
@@ -250,4 +250,66 @@ input[type="number"]:focus-visible {
     font-size: 14pt;
     color: var(--dark-color);
     font-weight: 600;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 50% 1fr 1fr 1fr;
+    margin-bottom: 20px;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 30px;
+    border-bottom: 1px solid #555;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-header button {
+    font-size: 14pt;
+    border-radius: 30px;
+    padding: 15px 40px;
+    background-color: var(--dark-color);
+    color: #eee;
+    border: 2px solid var(--dark-color);
+}
+.cart-header button:hover {
+    background-color: #325e8b;
+    border: 2px solid #325e8b;
+}
+
+.checkout-table {
+    border-collapse: collapse;
+}
+
+.checkout-table td {
+    padding: 15px 20px;
+}
+.checkout-table th {
+    padding: 8px 20px;
+    background-color: var(--dark-color);
+    color: #eee;
+}
+
+.checkout-table td:last-child, .checkout-table th:last-child {
+    text-align: right;
+    padding-left: 100px;
+} 
+
+.checkout-table tbody tr:last-child {
+    border-top: 1px solid #555;
+}
+
+button.remove:hover {
+    background-color: #c82f2f;
+    color: #eee;
+    border: 2px solid #c82f2f;
+}
+
+.order-item {
+    display: flex;
+    gap: 20px;
 }

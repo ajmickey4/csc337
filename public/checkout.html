@@ -4,7 +4,7 @@
     <title>Cart</title>
     <link rel="stylesheet" type="text/css" href="styles/site.css">
     <script src="js/nav-bar.js"></script>
-    <script src="js/cart.js"></script>
+    <script src="js/checkout.js"></script>
 </head>
 <body>
     <div class="header">
@@ -24,13 +24,25 @@
         </div>
     </div>
     <div class="content">
-        <div class="cart-header">
-            <h1>My Cart</h1>
-            <button id="checkout_button">Checkout</button>  
-        </div>              
-        <div id="cart_list" class="product-list">
-            <!-- Cart items will be dynamically inserted here -->
-        </div>      
+        <h1>Please Review Your Order</h1>
+
+        <div>
+            <table class="checkout-table" id="checkout_table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="checkout_list">
+                    <!-- Cart items will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>    
+        <br>
+        <button id="order_button">Place Order</button>
     </div>
     <div class="footer">
         <p>&copy; 2025 Mickey Shop</p>

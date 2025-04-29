@@ -16,6 +16,7 @@ window.initUserPage = function() {
             window.location.href = '/user';
         }
         content.appendChild(logOutButton);
+        loadOrders(content);
 
         content.style.display = '';
 
@@ -117,6 +118,50 @@ function register(event) {
         
     });
 
+}
+
+function loadOrders(content) {
+    //get user id from local storage
+    const userId = localStorage.getItem('mickey_shop_user_id');
+    console.log('loadOrders function called', userId);
+
+    //get orders from database
+    fetch('/user/orders', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId })
+    })
+    .then(response => response.json())
+    .then(orders => {
+        console.log('Orders fetched');
+        if (orders && orders.length > 0) {
+            // Loop through the orders and create list items
+            const orderList = document.createElement('div');
+            orders.forEach(order => {
+                const orderItem = document.createElement('div');
+                //add order details to order item including date, total, and first three items in order
+                orderItem.className = 'order-item';
+                orderItem.innerHTML = `
+                    <p><b>Date</b>: ${new Date(order.date).toLocaleDateString()}</p>
+                    <p><b>Total</b>: $${order.total}</p>
+                    <p><b>Items</b>:
+                    ${order.items.slice(0, 3).map(item => `${item.name} (x${item.quantity})`).join(', ')}
+                    ${order.items.length > 3 ? `...and ${order.items.length - 3} more` : ''}
+                    </p>
+                `;
+                orderList.appendChild(orderItem);
+            });
+            //create heading for orders
+            const orderHeading = document.createElement('h2');
+            orderHeading.innerText = 'Your Orders:';
+            content.appendChild(orderHeading);
+            content.appendChild(orderList);
+        } else {
+            content.innerHTML += '<h2>Your Orders</h2><p>You have no orders.</p>';
+        }
+    })
 }
 
 window.onload = function() {

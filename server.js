@@ -1,18 +1,8 @@
-/*
-    Task: Develop a website that will be similar to a real-life scenario.
-    Scope: At least three modules for their website (one per member).
-        - In most cases there will be a user module. You will have to figure out the two other modules. For example, if you want to build a website on some form of e-commerce, then products and sponsors might be considered two other modules. You also have to take care of session management, which you learned in the class. Another important aspect is file management or databases. We have already started file management in class. You will also know about database management (if not yet, then soon).
-    Example ideas:
-        - management website you have seen in class 
-        - some type of e-comm store, like the guitar website you have designed in an early assignment
-        - Any of your favorite website(s)!
+// Author: Andrew Mickey
+// Date: 4/29/2025
+// Description: This is a Node.js server that serves a shopping website. It connects to a MongoDB database to retrieve product information, handle user authentication, and manage shopping cart functionality.
+//
 
-I will be creating a simple e-comm store where people can buy and sell homemade goods. I will be using the following modules:
-    - User module
-    - Product module
-    - Order module
-    - Cart module
-*/
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -23,7 +13,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // middleware to parse URL-encoded bodies
 
-const {MongoClient} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 const uri = "mongodb://localhost:27017/"; // MongoDB connection string
 const client = new MongoClient(uri);
 
@@ -67,15 +57,18 @@ async function getProducts(searchTerm) {
         const database = client.db('mickeyShop');
         const collection = database.collection('products');
         let query = {};
-        //search for tags first, then name, then description
+        //search for tags first, then name, then description, only if quantity is greater than 0
         if (searchTerm) {
             query = {
                 $or: [
                     { tags: { $regex: searchTerm, $options: 'i' } },
                     { name: { $regex: searchTerm, $options: 'i' } },
                     { description: { $regex: searchTerm, $options: 'i' } }
-                ]
+                ],
+                quantity: { $gt: 0 } // Only show products with quantity greater than 0
             };
+        } else {
+            query = { quantity: { $gt: 0 } }; // Only show products with quantity greater than 0
         }
         const products = await collection.find(query).toArray();
         return products;
@@ -95,8 +88,6 @@ app.get('/cart', (req, res) => {
 app.get('/user', (req, res) => {
     res.sendFile(path.join(root, 'user.html'));
 });
-
-// ...
 
 app.post('/user/login', async (req, res) => {
     const username = req.body.username;
@@ -128,8 +119,6 @@ app.post('/user/login', async (req, res) => {
         await client.close();
     }
 });
-
-// ...
 
 app.post('/user/register', async (req, res) => {
     const username = req.body.username;
@@ -211,7 +200,7 @@ app.post('/cart/:action', async (req, res) => {
 
             // Get product details for each item in the cart
             const productIds = cartItems.map(item => item.productId);
-            const products = await productsCollection.findOne({ _id: new ObjectID(cartItems[0]._id) });
+            const products = await productsCollection.find({ _id: { $in: productIds.map(id => new ObjectId(`${id}`)) } }).toArray();
             console.log(products);
 
             // Combine cart items with product details
@@ -307,11 +296,119 @@ app.post('/cart/:action', async (req, res) => {
             await client.close();
         }
     }
+    //checkout action
+    else if(action == 'checkout') {
+        //checkout items in cart for userId, remove items from cart, and create order in orders collection
+        //adjust quantity in products collection
+        try {
+            await client.connect();
+            const database = client.db('mickeyShop');
+            const cartsCollection = database.collection('carts');
+            const productsCollection = database.collection('products');
+            const ordersCollection = database.collection('orders');
+
+            // Find items in the cart for the given userId
+            const cartItems = await cartsCollection.find({ userId: userId }).toArray();
+            const productIds = cartItems.map(item => item.productId);
+            // Get product details for each item in the cart
+            const products = await productsCollection.find({ _id: { $in: productIds.map(id => new ObjectId(`${id}`)) } }).toArray();
+
+            // If no items found, return empty array
+            if (cartItems.length === 0) {
+                res.status(400).send('Cart is empty');
+                return;
+            }
+
+            // Create an order for the items in the cart
+            const orderItems = cartItems.map(item => {
+                const product = products.find(p => p._id.toString() === item.productId.toString());
+                return { 
+                    productId: item.productId, 
+                    quantity: item.quantity, 
+                    price: product.price, 
+                    total: Number(product.price) * Number(item.quantity) 
+                };
+            });
+
+            //get order total
+            const orderTotal = orderItems.reduce((total, item) => total + item.total, 0);
+
+            //insert order into orders collection
+            await ordersCollection.insertOne({ userId: userId, items: orderItems, date: new Date(), total: orderTotal });
+
+            // Remove items from the cart
+            await cartsCollection.deleteMany({ userId: userId });
+
+            // Adjust quantities in the products collection
+            for (const item of cartItems) {
+                await productsCollection.updateOne(
+                    { _id: new ObjectId(`${item.productId}`) },
+                    { $inc: { quantity: -item.quantity } }
+                );
+            }
+
+            res.send('Order placed successfully and cart cleared');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Error checking out');
+        } finally {
+            await client.close();
+        }
+    }
     else {
         res.status(400).send('Invalid action');
     }
 });
 
+app.get('/checkout', (req, res) => {
+    res.sendFile(path.join(root, 'checkout.html'));
+});
+
+app.post('/user/orders', async (req, res) => {
+    //get userId from query
+    const userId = req.body.userId;
+    console.log(`User ID: ${userId}`);
+
+    //get orders from database
+    try {
+        await client.connect();
+        const database = client.db('mickeyShop');
+        const collection = database.collection('orders');
+        const orders = await collection.find({ userId: userId }).toArray();
+
+        //get product details for each order item
+
+        //extract all productIds from orders in nested order.items arrays
+        const productIds = orders.flatMap(order => order.items.map(item => item.productId));
+
+        //get all associated products from products collection
+        const products = await database.collection('products').find({ _id: { $in: productIds.map(id => new ObjectId(`${id}`)) } }).toArray();
+        
+        //map product details to order items
+        orders.forEach(order => {
+            order.items.forEach(item => {
+                const product = products.find(p => p._id.toString() == item.productId.toString());
+                if (product) {
+                    item.name = product.name;
+                    item.description = product.description;
+                    item.price = product.price;
+                }
+            });
+        });
+        //sort orders by date
+        orders.sort((a, b) => new Date(b.date) - new Date(a.date));   
+
+        //send orders as json
+        res.json(orders);
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Error retrieving orders');
+    }
+    finally {
+        await client.close();
+    }
+});
 
 //serve stylesheets
 app.get('/styles/:file', (req, res) => {
@@ -363,14 +460,6 @@ async function addDataToDatabase() {
         // Insert sample products into the collection
         const result = await collection.insertMany(products);
         console.log(`${result.insertedCount} products were inserted`);
-
-        //insert users from users.json
-        const usersData = fs.readFileSync('users.json', 'utf8');
-        const users = JSON.parse(usersData);
-        const usersCollection = database.collection('users');
-        const usersResult = await usersCollection.insertMany(users);
-        console.log(`${usersResult.insertedCount} users were inserted`);
-
         
     } catch (err) {
         console.error(err);

@@ -11,12 +11,7 @@
       "rustic",
       "handmade",
       "pottery"
-    ],
-    "images": [
-      "https://example.com/images/mug1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472409",
-    "updatedAt": "2025-04-22T18:11:25.472420"
+    ]
   },
   {
     "name": "Chunky Knit Blanket",
@@ -30,12 +25,7 @@
       "cozy",
       "handmade",
       "vegan yarn"
-    ],
-    "images": [
-      "https://example.com/images/blanket1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472422",
-    "updatedAt": "2025-04-22T18:11:25.472423"
+    ]
   },
   {
     "name": "Hand-Carved Wooden Spoon",
@@ -48,12 +38,7 @@
       "spoon",
       "hand-carved",
       "sustainable"
-    ],
-    "images": [
-      "https://example.com/images/spoon1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472424",
-    "updatedAt": "2025-04-22T18:11:25.472426"
+    ]
   },
   {
     "name": "Lavender Soy Candle",
@@ -67,12 +52,7 @@
       "soy wax",
       "aromatherapy",
       "hand-poured"
-    ],
-    "images": [
-      "https://example.com/images/candle1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472427",
-    "updatedAt": "2025-04-22T18:11:25.472429"
+    ]
   },
   {
     "name": "Minimalist Beaded Bracelet",
@@ -86,12 +66,7 @@
       "beads",
       "gemstone",
       "minimalist"
-    ],
-    "images": [
-      "https://example.com/images/bracelet1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472430",
-    "updatedAt": "2025-04-22T18:11:25.472432"
+    ]
   },
   {
     "name": "Handwoven Cotton Coasters (Set of 4)",
@@ -104,12 +79,7 @@
       "coasters",
       "handwoven",
       "textiles"
-    ],
-    "images": [
-      "https://example.com/images/coasters1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472434",
-    "updatedAt": "2025-04-22T18:11:25.472435"
+    ]
   },
   {
     "name": "Macrame Plant Hanger",
@@ -122,12 +92,7 @@
       "plant hanger",
       "boho",
       "handmade"
-    ],
-    "images": [
-      "https://example.com/images/plant_hanger1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472437",
-    "updatedAt": "2025-04-22T18:11:25.472438"
+    ]
   },
   {
     "name": "Hand-Painted Greeting Cards (Set of 5)",
@@ -140,12 +105,7 @@
       "hand-painted",
       "stationery",
       "watercolor"
-    ],
-    "images": [
-      "https://example.com/images/cards1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472440",
-    "updatedAt": "2025-04-22T18:11:25.472442"
+    ]
   },
   {
     "name": "Leather Keychain with Initial",
@@ -158,12 +118,7 @@
       "keychain",
       "custom",
       "initial"
-    ],
-    "images": [
-      "https://example.com/images/keychain1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472444",
-    "updatedAt": "2025-04-22T18:11:25.472446"
+    ]
   },
   {
     "name": "Handblown Glass Vase",
@@ -176,11 +131,6 @@
       "vase",
       "handblown",
       "decor"
-    ],
-    "images": [
-      "https://example.com/images/vase1.jpg"
-    ],
-    "createdAt": "2025-04-22T18:11:25.472447",
-    "updatedAt": "2025-04-22T18:11:25.472449"
+    ]
   }
 ]
