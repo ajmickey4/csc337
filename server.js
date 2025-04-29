@@ -190,6 +190,126 @@ app.post('/cart/:action', async (req, res) => {
     const quantity = req.body.quantity || 1; // Default to 1 if not provided
 
     console.log(`Action: ${action}, User ID: ${userId}, Product ID: ${productId}, Quantity: ${quantity}`);
+
+    //get action
+    if (action == "get") {
+        //get items in cart for userId, return as json with product data from products collection
+        try {
+            await client.connect();
+            const database = client.db('mickeyShop');
+            const cartsCollection = database.collection('carts');
+            const productsCollection = database.collection('products');
+
+            // Find items in the cart for the given userId
+            const cartItems = await cartsCollection.find({ userId: userId }).toArray();
+
+            // If no items found, return empty array
+            if (cartItems.length === 0) {
+                res.json([]);
+                return;
+            }
+
+            // Get product details for each item in the cart
+            const productIds = cartItems.map(item => item.productId);
+            const products = await productsCollection.findOne({ _id: new ObjectID(cartItems[0]._id) });
+            console.log(products);
+
+            // Combine cart items with product details
+            const result = cartItems.map(item => {
+                const product = products.find(p => p._id.toString() === item.productId.toString());
+                console.log(`Product found: ${product ? product.name : 'Not found'}`);
+                return {
+                    ...product,
+                    cartQuantity: item.quantity // Include the quantity from the cart
+                };
+            });
+
+            res.json(result);
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Error retrieving cart items');
+        } finally {
+            await client.close();
+        }
+    }
+    //add action
+    else if(action == 'add') {
+        //add item to cart as item with userId, productId, and quantity
+        try {
+            await client.connect();
+            const database = client.db('mickeyShop');
+            const collection = database.collection('carts');
+
+            // Check if the item already exists in the cart
+            const existingItem = await collection.findOne({ userId: userId, productId: productId });
+
+            if (existingItem) {
+                // If it exists, update the quantity
+                const newQuantity = existingItem.quantity + quantity;
+                await collection.updateOne({ _id: existingItem._id }, { $set: { quantity: newQuantity } });
+                res.send(`Updated quantity to ${newQuantity}`);
+            } else {
+                // If it doesn't exist, insert a new item
+                await collection.insertOne({ userId: userId, productId: productId, quantity: quantity });
+                res.send(`Added item to cart with quantity ${quantity}`);
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Error adding item to cart');
+        } finally {
+            await client.close();
+        }
+    }
+    //remove action
+    else if(action == 'remove') {
+        //find item in cart and remove it  
+        try {
+            await client.connect();
+            const database = client.db('mickeyShop');
+            const collection = database.collection('carts');
+
+            // Remove the item from the cart
+            const result = await collection.deleteOne({ userId: userId, productId: productId });
+            if (result.deletedCount === 1) {
+                res.send(`Removed item from cart`);
+            } else {
+                res.status(404).send('Item not found in cart');
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Error removing item from cart');
+        } finally {
+            await client.close();
+        }
+    }
+    // update action
+    else if(action == 'update') {
+        //find item in carts and update quantity
+        try {
+            await client.connect();
+            const database = client.db('mickeyShop');
+            const collection = database.collection('carts');
+
+            // Update the quantity of the item in the cart
+            const result = await collection.updateOne(
+                { userId: userId, productId: productId },
+                { $set: { quantity: quantity } }
+            );
+            if (result.modifiedCount === 1) {
+                res.send(`Updated item quantity to ${quantity}`);
+            } else {
+                res.status(404).send('Item not found in cart');
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Error updating item in cart');
+        } finally {
+            await client.close();
+        }
+    }
+    else {
+        res.status(400).send('Invalid action');
+    }
 });
 
 
