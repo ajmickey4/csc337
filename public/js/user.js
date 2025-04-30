@@ -8,14 +8,8 @@ window.initUserPage = function() {
             <p>Welcome back to Mickey's Shop! You can now access your cart.</p>
         `;
 
-        let logOutButton = document.createElement('button');
-        logOutButton.innerText = 'Logout';
-        logOutButton.onclick = function() {
-            localStorage.removeItem('mickey_shop_username');
-            localStorage.removeItem('mickey_shop_user_id');
-            window.location.href = '/user';
-        }
-        content.appendChild(logOutButton);
+        content.innerHTML += `
+        <button onclick="logout()">Logout</button>`
         loadOrders(content);
 
         content.style.display = '';
@@ -162,6 +156,14 @@ function loadOrders(content) {
             content.innerHTML += '<h2>Your Orders</h2><p>You have no orders.</p>';
         }
     })
+}
+
+function logout() {
+    console.log('Logout function called');
+    //remove user id from local storage
+    localStorage.removeItem('mickey_shop_username');
+    localStorage.removeItem('mickey_shop_user_id');
+    window.location.href = '/user'; // Redirect to user page
 }
 
 window.onload = function() {

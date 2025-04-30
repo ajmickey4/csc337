@@ -105,9 +105,4 @@ window.removeFromCart = function(event) {
 window.onload = function() {
     initNavBar();
     initCart();
-    //initUserPage();
-    //initProductPage();
-    //initCheckoutPage();
-    //initOrderPage();
-    //initAdminPage();
 }

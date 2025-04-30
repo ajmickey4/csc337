@@ -137,7 +137,7 @@ app.post('/user/register', async (req, res) => {
         await client.connect();
 
         // Access the users collection
-        const usersCollection = client.db().collection('users');
+        const usersCollection = client.db('mickeyShop').collection('users');
 
         // Check if the username already exists
         const existingUser = await usersCollection.findOne({ username: username });
@@ -468,4 +468,4 @@ async function addDataToDatabase() {
     }
 }
 
-//addDataToDatabase();
+addDataToDatabase();
