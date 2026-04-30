@@ -21,7 +21,8 @@ const client = new MongoClient(uri);
 const crypto = require('crypto');
 
 app.use((req, res, next) => {
-    console.log(`[${req.method}] ${req.url}`);
+    const log = {'method': req.method, 'url': req.url, 'time': new Date()};
+    console.log(log);
     next();
 });
 
