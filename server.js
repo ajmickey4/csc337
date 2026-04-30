@@ -414,9 +414,9 @@ app.post('/user/orders', async (req, res) => {
 //serve stylesheets
 app.get('/styles/:file', (req, res) => {
     const file = req.params.file;
-    const filePath = path.join(root, 'styles', file);
+    const targetDirectory = path.join(root, 'styles');
     try {
-        res.sendFile(filePath);
+        res.sendFile(file, { root: targetDirectory });
     } catch (err) {
         console.error(err);
         res.status(404).send('File not found');
@@ -426,9 +426,9 @@ app.get('/styles/:file', (req, res) => {
 //serve scripts
 app.get('/js/:file', (req, res) => {
     const file = req.params.file;
-    const filePath = path.join(root, 'js', file);
-    try{
-        res.sendFile(filePath);
+    const targetDirectory = path.join(root, 'js');
+    try {
+        res.sendFile(file, { root: targetDirectory });
     }
     catch (err) {
         console.error(err);
